@@ -1,0 +1,15 @@
+{
+  "name": "tizen-system-monitor",
+  "version": "1.0.0",
+  "description": "Tizen TV 6.0 System Metrics & Diagnostic Tool",
+  "packageType": "app",
+  "appName": "System & Network Monitor",
+  "appPath": "index.html",
+  "keys": [
+    "MediaPlay",
+    "MediaPause",
+    "MediaStop",
+    "MediaPlayPause"
+  ],
+  "evaluateScriptOnDocumentStart": false
+}

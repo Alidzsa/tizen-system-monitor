@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<widget xmlns="http://www.w3.org/ns/widgets" 
+        xmlns:tizen="http://tizen.org/ns/widgets" 
+        id="http://developer.samsung.com/SysMonitor" 
+        version="1.0.0" 
+        viewmodes="maximized">
+    <tizen:application id="SysMonitor.SystemMonitor" exec="index.html" package="SysMonitor" />
+    <tizen:profile name="tv"/>
+    <tizen:setting screen-orientation="landscape" context-menu="enable" background-support="disable" encryption="disable" install-location="auto"/>
+    
+    <name>System &amp; Network Monitor</name>
+    <description>Tizen TV 6.0 System Metrics, Resource Diagnostics, and Anomaly Inspection Tool</description>
+    <author href="http://developer.samsung.com">Tizen Developer</author>
+    <icon src="icon.png"/>
+    <content src="index.html"/>
+    
+    <tizen:privilege name="http://tizen.org/privilege/systeminfo"/>
+    <tizen:privilege name="http://tizen.org/privilege/network.get"/>
+    <tizen:privilege name="http://tizen.org/privilege/tv.inputdevice"/>
+    <tizen:privilege name="http://tizen.org/privilege/application.info"/>
+    <tizen:privilege name="http://tizen.org/privilege/internet"/>
+
+    <feature name="http://tizen.org/feature/screen.size.all"/>
+</widget>

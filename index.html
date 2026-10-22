@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Tizen TV 6.0 System Metrics &amp; Diagnostic Monitor</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <!-- Top Header -->
+    <header class="header">
+        <div class="title-group">
+            <div class="logo-badge">⚡</div>
+            <div>
+                <h1>Tizen TV System &amp; Network Monitor</h1>
+                <div class="subtitle">Platform: Tizen OS 6.0 | System Diagnostics &amp; Metric Telemetry</div>
+            </div>
+        </div>
+
+        <div class="header-actions">
+            <div class="live-pill">
+                <span class="live-dot"></span>
+                <span>LIVE TELEMETRY</span>
+            </div>
+            <button id="refresh-btn" class="nav-btn" tabindex="0">Refresh</button>
+            <button id="auto-toggle-btn" class="nav-btn" tabindex="0">Pause Auto-Refresh</button>
+        </div>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <nav class="tabs-bar">
+        <button id="tab-metrics" class="tab-btn selected" tabindex="0">Live Metrics Overview</button>
+        <button id="tab-security" class="tab-btn" tabindex="0">Security &amp; Vulnerability Guide</button>
+    </nav>
+
+    <!-- View 1: Real-Time Metrics & Diagnostics -->
+    <main id="metrics-view" class="grid">
+        <!-- System Health Status Banner -->
+        <div class="card card-span-3">
+            <div class="security-alert-box" style="margin-bottom: 0;">
+                <div class="security-alert-content">
+                    <div class="security-icon">🛡️</div>
+                    <div class="security-text">
+                        <h3 id="health-status-text">Evaluating System Metrics...</h3>
+                        <p>Continuous monitoring of CPU saturation, memory starvation, storage thresholds, and network connectivity.</p>
+                    </div>
+                </div>
+                <div>
+                    <span id="health-badge" class="status-badge normal">Checking...</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- CPU Metric Card -->
+        <div class="card">
+            <div class="card-header">
+                <span class="card-title">Processor Load</span>
+                <span id="cpu-status" class="status-badge normal">Optimal</span>
+            </div>
+            <div>
+                <div id="cpu-value" class="metric-value-huge">--<span class="metric-unit">%</span></div>
+                <div class="metric-desc">Tizen Core Processor utilization</div>
+                <div class="progress-container">
+                    <div id="cpu-bar" class="progress-bar" style="width: 0%;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- RAM / Memory Metric Card -->
+        <div class="card">
+            <div class="card-header">
+                <span class="card-title">RAM / Memory State</span>
+                <span id="mem-status" class="status-badge normal">NORMAL</span>
+            </div>
+            <div>
+                <div id="mem-value" class="metric-value-huge">NORMAL</div>
+                <div class="metric-desc">Total Installed: <span id="mem-total" style="color: #f3f4f6; font-weight: 600;">-- MB</span></div>
+                <div class="progress-container">
+                    <div id="mem-bar" class="progress-bar" style="width: 40%;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Storage Card -->
+        <div class="card">
+            <div class="card-header">
+                <span class="card-title">Flash Storage</span>
+                <span id="storage-status" class="status-badge normal">Healthy</span>
+            </div>
+            <div>
+                <div id="storage-value" class="metric-value-huge">--<span class="metric-unit">%</span></div>
+                <div class="metric-desc" id="storage-total">Reading storage capacity...</div>
+                <div class="progress-container">
+                    <div id="storage-bar" class="progress-bar" style="width: 0%;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Network Connectivity Details -->
+        <div class="card card-span-2">
+            <div class="card-header">
+                <span class="card-title">Network &amp; Interface Diagnostics</span>
+                <span id="net-status" class="status-badge normal">Checking</span>
+            </div>
+            <div class="info-list">
+                <div class="info-item">
+                    <span class="info-label">Interface Mode:</span>
+                    <span id="net-type" class="info-val">--</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Local IP Address:</span>
+                    <span id="net-ip" class="info-val">--</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Subnet Mask:</span>
+                    <span id="net-subnet" class="info-val">--</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Default Gateway:</span>
+                    <span id="net-gateway" class="info-val">--</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Primary DNS Server:</span>
+                    <span id="net-dns" class="info-val">--</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Device & Platform Info -->
+        <div class="card">
+            <div class="card-header">
+                <span class="card-title">Device Specifications</span>
+            </div>
+            <div class="info-list">
+                <div class="info-item">
+                    <span class="info-label">Device Model:</span>
+                    <span id="dev-model" class="info-val">--</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">OS Platform:</span>
+                    <span id="dev-os" class="info-val">Tizen OS 6.0</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Display Mode:</span>
+                    <span id="dev-res" class="info-val">--</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">CPU Architecture:</span>
+                    <span id="dev-arch" class="info-val">--</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Automated Anomaly Checklist Card -->
+        <div class="card card-span-3">
+            <div class="card-header">
+                <span class="card-title">Resource Anomaly Evaluation</span>
+            </div>
+            <div id="anomaly-list">
+                <div style="color: #9ca3af; font-size: 14px;">Running telemetry audit...</div>
+            </div>
+        </div>
+    </main>
+
+    <!-- View 2: Security & Threat Guidance -->
+    <main id="security-view" style="display: none;">
+        <div class="card" style="margin-bottom: 20px;">
+            <div class="card-header">
+                <span class="card-title">🛡️ Native System Antivirus (Samsung Smart Security)</span>
+                <span class="status-badge normal">Official Recommendation</span>
+            </div>
+            <p style="color: #cbd5e1; line-height: 1.6; margin-bottom: 16px;">
+                Due to Tizen TV's strict sandbox security model, third-party web apps cannot directly inspect kernel memory or scan other installed applications. Use Samsung's built-in Knox scanner to inspect the TV:
+            </p>
+            <div class="info-list" style="background: rgba(0,0,0,0.25); padding: 16px; border-radius: 10px;">
+                <div class="info-item">
+                    <span class="info-label">Step 1:</span>
+                    <span class="info-val" style="font-family: inherit;">Press <b>Home</b> on your remote and select <b>Settings</b>.</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Step 2:</span>
+                    <span class="info-val" style="font-family: inherit;">Go to <b>General</b> (or <b>General &amp; Privacy</b>) &gt; <b>System Manager</b>.</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Step 3:</span>
+                    <span class="info-val" style="font-family: inherit;">Select <b>Smart Security</b> &gt; click <b>Scan</b> to scan for malicious code.</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Step 4:</span>
+                    <span class="info-val" style="font-family: inherit;">Check the <b>Isolated List</b> to view quarantined threats or blocked network activity.</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <span class="card-title">🌐 Clearing Malicious Browser Pop-Ups</span>
+                <span class="status-badge warning">Common False-Virus Cause</span>
+            </div>
+            <p style="color: #cbd5e1; line-height: 1.6; margin-bottom: 14px;">
+                Most "viruses" reported on Smart TVs are actually malicious browser cache entries or redirect scripts originating from websites visited in the TV Internet browser:
+            </p>
+            <ul style="color: #9ca3af; margin-left: 20px; line-height: 1.8; font-size: 14px;">
+                <li>Open the <b>Internet (Web Browser)</b> app on the TV.</li>
+                <li>Open the top-right menu (⚙️ Settings) &gt; <b>Clear Browsing Data</b>.</li>
+                <li>Clear <b>Cookies</b>, <b>Cache</b>, and <b>Browsing History</b>.</li>
+                <li>Enable <b>Block Pop-ups</b> in the browser security settings.</li>
+            </ul>
+        </div>
+    </main>
+
+    <!-- Bottom Status Bar -->
+    <footer class="footer-bar">
+        <div>
+            <span class="remote-hint-badge">Arrow Keys</span> Navigate
+            <span class="remote-hint-badge" style="margin-left: 8px;">Enter</span> Select
+            <span class="remote-hint-badge" style="margin-left: 8px;">Back</span> Exit App
+        </div>
+        <div>
+            Last updated: <span id="last-updated">--</span>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
