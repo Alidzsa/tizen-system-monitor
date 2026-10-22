@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>Tizen TV 6.0 System Metrics &amp; Diagnostic Monitor</title>
+    <title>Tizen TV 6.0 System Metrics, Diagnostics &amp; Security Monitor</title>
     <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -13,27 +13,32 @@
             <div class="logo-badge">⚡</div>
             <div>
                 <h1>Tizen TV System &amp; Network Monitor</h1>
-                <div class="subtitle">Platform: Tizen OS 6.0 | System Diagnostics &amp; Metric Telemetry</div>
+                <div class="subtitle">Platform: Samsung Tizen OS 6.0 | System Diagnostics &amp; Telemetry</div>
             </div>
         </div>
 
-        <div class="header-actions">
-            <div class="live-pill">
-                <span class="live-dot"></span>
-                <span>LIVE TELEMETRY</span>
-            </div>
-            <button id="refresh-btn" class="nav-btn" tabindex="0">Refresh</button>
-            <button id="auto-toggle-btn" class="nav-btn" tabindex="0">Pause Auto-Refresh</button>
+        <!-- TV Remote Color Shortcuts Legend -->
+        <div class="color-shortcuts-bar">
+            <div class="color-pill"><span class="dot-btn dot-red"></span> [Red] Audit</div>
+            <div class="color-pill"><span class="dot-btn dot-green"></span> [Green] Auto-Refresh</div>
+            <div class="color-pill"><span class="dot-btn dot-yellow"></span> [Yellow] Tabs</div>
+            <div class="color-pill"><span class="dot-btn dot-blue"></span> [Blue] Ping</div>
+        </div>
+
+        <div style="display: flex; gap: 10px;">
+            <button id="refresh-btn" class="focusable" tabindex="0">Refresh</button>
+            <button id="auto-toggle-btn" class="focusable" tabindex="0">Pause Auto-Refresh</button>
         </div>
     </header>
 
     <!-- Navigation Tabs -->
     <nav class="tabs-bar">
-        <button id="tab-metrics" class="tab-btn selected" tabindex="0">Live Metrics Overview</button>
-        <button id="tab-security" class="tab-btn" tabindex="0">Security &amp; Vulnerability Guide</button>
+        <button id="tab-metrics" class="tab-btn selected focusable" tabindex="0">Live Metrics Overview</button>
+        <button id="tab-tools" class="tab-btn focusable" tabindex="0">Diagnostic Tools &amp; Benchmarks</button>
+        <button id="tab-security" class="tab-btn focusable" tabindex="0">Security &amp; Antivirus Guide</button>
     </nav>
 
-    <!-- View 1: Real-Time Metrics & Diagnostics -->
+    <!-- VIEW 1: LIVE METRICS OVERVIEW -->
     <main id="metrics-view" class="grid">
         <!-- System Health Status Banner -->
         <div class="card card-span-3">
@@ -54,7 +59,7 @@
         <!-- CPU Metric Card -->
         <div class="card">
             <div class="card-header">
-                <span class="card-title">Processor Load</span>
+                <span class="card-title">Processor (CPU)</span>
                 <span id="cpu-status" class="status-badge normal">Optimal</span>
             </div>
             <div>
@@ -74,7 +79,7 @@
             </div>
             <div>
                 <div id="mem-value" class="metric-value-huge">NORMAL</div>
-                <div class="metric-desc">Total Installed: <span id="mem-total" style="color: #f3f4f6; font-weight: 600;">-- MB</span></div>
+                <div class="metric-desc">Installed RAM: <span id="mem-total" style="color: #f3f4f6; font-weight: 600;">-- MB</span></div>
                 <div class="progress-container">
                     <div id="mem-bar" class="progress-bar" style="width: 40%;"></div>
                 </div>
@@ -120,7 +125,7 @@
                     <span id="net-gateway" class="info-val">--</span>
                 </div>
                 <div class="info-item">
-                    <span class="info-label">Primary DNS Server:</span>
+                    <span class="info-label">DNS Server:</span>
                     <span id="net-dns" class="info-val">--</span>
                 </div>
             </div>
@@ -129,40 +134,105 @@
         <!-- Device & Platform Info -->
         <div class="card">
             <div class="card-header">
-                <span class="card-title">Device Specifications</span>
+                <span class="card-title">Device Hardware</span>
             </div>
             <div class="info-list">
                 <div class="info-item">
-                    <span class="info-label">Device Model:</span>
+                    <span class="info-label">Model:</span>
                     <span id="dev-model" class="info-val">--</span>
                 </div>
                 <div class="info-item">
-                    <span class="info-label">OS Platform:</span>
+                    <span class="info-label">OS:</span>
                     <span id="dev-os" class="info-val">Tizen OS 6.0</span>
                 </div>
                 <div class="info-item">
-                    <span class="info-label">Display Mode:</span>
+                    <span class="info-label">Resolution:</span>
                     <span id="dev-res" class="info-val">--</span>
                 </div>
                 <div class="info-item">
-                    <span class="info-label">CPU Architecture:</span>
+                    <span class="info-label">Arch:</span>
                     <span id="dev-arch" class="info-val">--</span>
                 </div>
             </div>
         </div>
+    </main>
 
-        <!-- Automated Anomaly Checklist Card -->
+    <!-- VIEW 2: DIAGNOSTIC TOOLS & BENCHMARKS -->
+    <main id="tools-view" class="grid" style="display: none;">
+        <!-- Feature 1: One-Click System Audit -->
         <div class="card card-span-3">
             <div class="card-header">
-                <span class="card-title">Resource Anomaly Evaluation</span>
+                <span class="card-title">🔍 One-Click Full System Health Audit</span>
+                <button id="run-audit-btn" class="focusable" tabindex="0">Run 15s Audit (Or Press RED)</button>
             </div>
-            <div id="anomaly-list">
-                <div style="color: #9ca3af; font-size: 14px;">Running telemetry audit...</div>
+            <div id="audit-progress-box">
+                <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px;">
+                    <div id="audit-score" class="metric-value-huge">--</div>
+                    <div id="audit-verdict" style="color: #cbd5e1; font-size: 15px; font-weight: 600;">
+                        Ready to audit CPU spikes, RAM leakage, gateway response, and storage margins.
+                    </div>
+                </div>
             </div>
+        </div>
+
+        <!-- Feature 2: Network Latency & Ping Meter -->
+        <div class="card">
+            <div class="card-header">
+                <span class="card-title">🌐 Ping &amp; Latency</span>
+                <span id="ping-status" class="status-badge normal">Ready</span>
+            </div>
+            <div>
+                <div id="ping-value" class="metric-value-huge">--<span class="metric-unit">ms</span></div>
+                <div id="ping-jitter" class="metric-desc">Jitter: -- ms</div>
+            </div>
+            <button id="run-ping-btn" class="focusable" style="margin-top: 14px;" tabindex="0">Test Latency (Or Press BLUE)</button>
+        </div>
+
+        <!-- Feature 3: Wi-Fi Signal Gauge -->
+        <div class="card">
+            <div class="card-header">
+                <span class="card-title">📶 Wi-Fi Signal Strength</span>
+                <div class="wifi-bars-container">
+                    <div class="wifi-bar"></div>
+                    <div class="wifi-bar"></div>
+                    <div class="wifi-bar"></div>
+                    <div class="wifi-bar"></div>
+                </div>
+            </div>
+            <div class="info-list">
+                <div class="info-item">
+                    <span class="info-label">SSID:</span>
+                    <span id="wifi-ssid" class="info-val">Scanning...</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Signal Level:</span>
+                    <span id="wifi-signal-text" class="info-val">--</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Feature 4: GPU FPS Benchmark -->
+        <div class="card">
+            <div class="card-header">
+                <span class="card-title">🎮 GPU Display Benchmark</span>
+                <span id="fps-status" class="status-badge normal">Idle</span>
+            </div>
+            <div id="fps-value" class="metric-value-huge">60<span class="metric-unit">FPS</span></div>
+            <canvas id="benchmark-canvas" width="300" height="80"></canvas>
+            <button id="run-fps-btn" class="focusable" style="margin-top: 10px;" tabindex="0">Run GPU Benchmark</button>
+        </div>
+
+        <!-- Feature 6: Live Rolling Anomaly & Event Console -->
+        <div class="card card-span-3">
+            <div class="card-header">
+                <span class="card-title">📋 Live Telemetry &amp; Anomaly Log</span>
+                <button id="clear-logs-btn" class="focusable" tabindex="0">Clear Logs</button>
+            </div>
+            <div id="console-box" class="console-box"></div>
         </div>
     </main>
 
-    <!-- View 2: Security & Threat Guidance -->
+    <!-- VIEW 3: SECURITY & ANTIVIRUS GUIDE -->
     <main id="security-view" style="display: none;">
         <div class="card" style="margin-bottom: 20px;">
             <div class="card-header">
@@ -170,7 +240,7 @@
                 <span class="status-badge normal">Official Recommendation</span>
             </div>
             <p style="color: #cbd5e1; line-height: 1.6; margin-bottom: 16px;">
-                Due to Tizen TV's strict sandbox security model, third-party web apps cannot directly inspect kernel memory or scan other installed applications. Use Samsung's built-in Knox scanner to inspect the TV:
+                Due to Tizen TV's strict sandbox security model, user apps cannot directly scan kernel memory or other installed apps. Use Samsung's built-in Knox scanner to inspect the TV:
             </p>
             <div class="info-list" style="background: rgba(0,0,0,0.25); padding: 16px; border-radius: 10px;">
                 <div class="info-item">
@@ -214,7 +284,7 @@
         <div>
             <span class="remote-hint-badge">Arrow Keys</span> Navigate
             <span class="remote-hint-badge" style="margin-left: 8px;">Enter</span> Select
-            <span class="remote-hint-badge" style="margin-left: 8px;">Back</span> Exit App
+            <span class="remote-hint-badge" style="margin-left: 8px;">Back</span> Return / Exit
         </div>
         <div>
             Last updated: <span id="last-updated">--</span>

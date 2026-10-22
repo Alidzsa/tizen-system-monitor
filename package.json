@@ -1,15 +1,21 @@
 {
   "name": "tizen-system-monitor",
-  "version": "1.0.0",
-  "description": "Tizen TV 6.0 System Metrics & Diagnostic Tool",
+  "version": "1.1.0",
+  "description": "Tizen TV 6.0 System Metrics, Diagnostics, Network & Hardware Benchmark Tool",
   "packageType": "app",
   "appName": "System & Network Monitor",
   "appPath": "index.html",
   "keys": [
+    "ColorF0Red",
+    "ColorF1Green",
+    "ColorF2Yellow",
+    "ColorF3Blue",
     "MediaPlay",
     "MediaPause",
     "MediaStop",
-    "MediaPlayPause"
+    "MediaPlayPause",
+    "MediaFastForward",
+    "MediaRewind"
   ],
   "evaluateScriptOnDocumentStart": false
 }
